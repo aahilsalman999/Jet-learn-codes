@@ -4,7 +4,6 @@ def details():
   science = int(input("What are your science marks?"))
   history = int(input("What are your history marks?"))
   return name , maths , science , history
-details()
 
 def total_average(maths , science , history):
   total = maths + science + history
@@ -35,9 +34,10 @@ def print_marksheet(name,maths,science,history,total,average):
   print("Average:",average)
 name,maths,science,history = details()
 total,average = total_average(maths , science , history)
-remark = grades(average)
-print_marksheet(name,maths,science,history,total,average)
 
+print_marksheet(name,maths,science,history,total,average)
+print("Grades:",end=" ")
+grades(average)
 
 
   
