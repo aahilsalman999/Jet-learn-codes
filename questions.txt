@@ -1,0 +1,15 @@
+Which animal is known for its black and white stripes?,Zebra,Panda,Tiger,Skunk,1
+What is 144 ÷ 12?,10,12,14,16,2
+What is the name of Harry Potter’s owl?,Hedwig,Fawkes,Crookshanks,Dobby,1
+What kind of animal is Sonic in the video game series?,Hedgehog,Fox,Bunny,Dog,1
+What color are Smurfs?,Blue,Green,Pink,Yellow,1
+Which fruit is known as the “King of Fruits”?,Apple,Banana,Mango,Durian,3
+What does a caterpillar turn into?,Butterfly,Moth,Frog,Bee,1
+In which country was the first pizza made?,France,Italy,Greece,USA,2
+Which vegetable is known for making people cry?,Tomato,Onion,Carrot,Potato,2
+What is the name of Mickey Mouse’s pet dog?,Goofy,Pluto,Donald,Max,2
+Which cartoon character lives in a pineapple under the sea?,SpongeBob,Patrick,Dory,Nemo,1
+What is a group of lions called?,Pack,Pride,Swarm,Flock,2
+What do pandas mostly eat?,Bamboo,Fish,Fruits,Leaves,1
+What is the chemical symbol for gold?,Go,Gd,Au,Ag,3
+What color is the outermost stripe of a rainbow?,Red,Blue,Violet,Green,1
