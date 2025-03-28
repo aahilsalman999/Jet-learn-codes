@@ -3,15 +3,15 @@ title = "Quiz Master:"
 width = 800
 height = 800
 
-#define rectangular areas for different ui elements = Rect(x,y,width,height)
-marquee_box = Rect(0,0,700,50)
-question_box = Rect(0,0,400,50)
-timer_box = Rect(0,0,100,100)
-answer_box_1 = Rect(0,0,200,100)
-answer_box_2 = Rect(0,0,200,100)
-answer_box_3 = Rect(0,0,200,100)
-answer_box_4 = Rect(0,0,200,100)
-skip_box = Rect(0,0,50,200)
+#define rectangular areas for different elements = Rect(x,y,width,height)
+marquee_box = Rect(0,0,745,75)
+question_box = Rect(0,0,725,50)
+timer_box = Rect(0,0,125,115)
+answer_box_1 = Rect(0,0,550,50)
+answer_box_2 = Rect(0,0,550,50)
+answer_box_3 = Rect(0,0,550,50)
+answer_box_4 = Rect(0,0,550,50)
+skip_box = Rect(0,0,150,300)
 
 #Variables
 score = 0
@@ -28,14 +28,14 @@ question_count = 0
 question_index = 0
 
 #move rectangles to their correct position on screen
-marquee_box.move_ip(0,0)
-question_box.move_ip(20,100)
-timer_box.move_ip(700,100)
-answer_box_1.move_ip(40,200)
-answer_box_2.move_ip(40,300)
-answer_box_3.move_ip(40,400)
-answer_box_4.move_ip(40,500)
-skip_box.move_ip(700,300)
+marquee_box.move_ip(20,20)
+question_box.move_ip(40,135)
+timer_box.move_ip(645,207)
+answer_box_1.move_ip(40,235)
+answer_box_2.move_ip(40,335)
+answer_box_3.move_ip(40,435)
+answer_box_4.move_ip(40,535)
+skip_box.move_ip(625,335)
 
 def draw():
   global marquee_message
@@ -47,7 +47,58 @@ def draw():
   screen.draw.filled_rect(skip_box,"yellow")
   for answer_box in answer_boxes:
      screen.draw.filled_rect(answer_box,"yellow")
-  
   marquee_message = "Welcome to Quiz Master"
   marquee_message = marquee_message + f"Q : {question_index} of {question_count}"
+  screen.draw.textbox(marquee_message , marquee_box , color = "Black")
+  screen.draw.textbox(str(countdown),timer_box , color = "Black", shadow = (0.5 , 0.5) , scolor = "yellow")
+  screen.draw.textbox("Skip" , skip_box , color = "Black" , angle = -90)
+  screen.draw.textbox(question[0].strip(),question_box , color = "Black" , shadow = (0.5 , 0.5) , scolor = "yellow")
   
+  #display answer choices
+  index = 1
+  for answer_box in answer_boxes:
+     screen.draw.textbox(question[index] , answer_box , color = "Black")
+
+def move_marquee():
+   marquee_box = marquee_box.x = 5
+   if marquee_box.right < 0:
+     marquee_box.left = width
+    
+def update():
+   move_marquee()
+
+def read_question_file():
+  global question_count , question
+  question_file = open(question_file_name , "r")
+  for questions in question_file:
+     q_file.append(questions)
+     question_count = question_count + 1
+     question_file.close()
+  
+def read_next_question():
+  global question_index
+  if questions: 
+     question_index + 1
+     question = random.choice(questions)
+     question.remove(question)
+     return question.split(" , ")
+  else:
+     return ("No more message")
+  
+def on_mouse_down(pos):
+   index = 1
+   for box in answer_boxes:
+      if box.collidepoint(pos):
+         if index is int(question[5]):
+            correct_answer()
+         else:
+            game_over()
+      index = index + 1
+    if skip_box.collidepoint(pos):
+       skip_question()
+           
+     
+
+     
+
+pgzrun.go()
