@@ -60,7 +60,7 @@ def draw():
      screen.draw.textbox(question[index] , answer_box , color = "Black")
 
 def move_marquee():
-   marquee_box = marquee_box.x = 5
+   marquee_box.x = marquee_box.x - 5
    if marquee_box.right < 0:
      marquee_box.left = width
     
@@ -69,9 +69,9 @@ def update():
 
 def read_question_file():
   global question_count , questions
-  question_file = open(question_file_name , "r")
+  question_file = open(question_file_name , "r" , encoding="utf-8")
   for questions in question_file:
-     questions.append(questions)
+     question.append(questions)
      question_count = question_count + 1
   question_file.close()
   
@@ -81,7 +81,7 @@ def read_next_question():
      question_index + 1
      questions = random.choice(question)
      question.remove(questions)
-     return question.split(" , ")
+     return question.split(",")
   else:
      return ("No more message")
   
