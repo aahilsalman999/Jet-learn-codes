@@ -18,7 +18,7 @@ score = 0
 countdown = 10
 marquee_message = ""
 is_game_over = False
-question_file_name = "question.txt"
+question_file_name = "questions.txt"
 answer_boxes = [answer_box_1,
                 answer_box_2,
                 answer_box_3,
@@ -68,19 +68,19 @@ def update():
    move_marquee()
 
 def read_question_file():
-  global question_count , question
+  global question_count , questions
   question_file = open(question_file_name , "r")
   for questions in question_file:
-     q_file.append(questions)
+     questions.append(questions)
      question_count = question_count + 1
-     question_file.close()
+  question_file.close()
   
 def read_next_question():
   global question_index
-  if questions: 
+  if question: 
      question_index + 1
-     question = random.choice(questions)
-     question.remove(question)
+     questions = random.choice(question)
+     question.remove(questions)
      return question.split(" , ")
   else:
      return ("No more message")
@@ -89,16 +89,44 @@ def on_mouse_down(pos):
    index = 1
    for box in answer_boxes:
       if box.collidepoint(pos):
-         if index is int(question[5]):
+         if index is int(questions[5]):
             correct_answer()
          else:
             game_over()
       index = index + 1
-    if skip_box.collidepoint(pos):
+
+   if skip_box.collidepoint(pos):
        skip_question()
-           
-     
 
-     
+def correct_answer():
+   global score , questions , countdown , question_count
+   score = score + 1
+   if question:
+      questions = read_next_question()
+      countdown = 10
+   else:
+      game_over()
 
+def game_over():
+   global questions , countdown , is_game_over
+   message = f"Game Over\n You got {score} questions correct" 
+   questions = [message , "!" , "$" , "*" , "#" , 5]
+
+def skip_question():
+   global questions , countdown
+   if question and not is_game_over:
+      questions = read_next_question()
+      countdown = 10
+   else:
+      game_over()
+      
+def update_countdown():
+   global countdown
+   if countdown:
+      countdown = countdown - 1
+   else:
+      game_over()
+
+questions = read_question_file()
+clock.schedule_interval(update_countdown , 1)
 pgzrun.go()
