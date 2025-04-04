@@ -48,17 +48,17 @@ def draw():
   for answer_box in answer_boxes:
      screen.draw.filled_rect(answer_box,"yellow")
   marquee_message = "Welcome to Quiz Master"
-  marquee_message = marquee_message + f"Q : {question_index} of {question_count}"
+  marquee_message = marquee_message + f" : {question_index} of {question_count}"
   screen.draw.textbox(marquee_message , marquee_box , color = "Black")
   screen.draw.textbox(str(countdown),timer_box , color = "Black", shadow = (0.5 , 0.5) , scolor = "yellow")
   screen.draw.textbox("Skip" , skip_box , color = "Black" , angle = -90)
-  screen.draw.textbox(question[0].strip(),question_box , color = "Black" , shadow = (0.5 , 0.5) , scolor = "yellow")
+  screen.draw.textbox(questions[0].strip(),question_box , color = "Black" , shadow = (0.5 , 0.5) , scolor = "yellow")
   
   #display answer choices
   index = 1
   for answer_box in answer_boxes:
-     screen.draw.textbox(question[index] , answer_box , color = "Black")
-
+     screen.draw.textbox(questions[index] , answer_box , color = "Black")
+     index = index + 1
 def move_marquee():
    marquee_box.x = marquee_box.x - 5
    if marquee_box.right < 0:
@@ -78,12 +78,12 @@ def read_question_file():
 def read_next_question():
   global question_index
   if question: 
-     question_index + 1
+     question_index += 1
      questions = random.choice(question)
      question.remove(questions)
-     return question.split(",")
+     return questions.split(",")
   else:
-     return ("No more message")
+     return ("No more message", "!" , "$" , "*" , "#" , 5)
   
 def on_mouse_down(pos):
    index = 1
@@ -111,6 +111,8 @@ def game_over():
    global questions , countdown , is_game_over
    message = f"Game Over\n You got {score} questions correct" 
    questions = [message , "!" , "$" , "*" , "#" , 5]
+   countdown = 0
+   is_game_over = True
 
 def skip_question():
    global questions , countdown
@@ -126,7 +128,7 @@ def update_countdown():
       countdown = countdown - 1
    else:
       game_over()
-
-questions = read_question_file()
+read_question_file()
+questions = read_next_question()
 clock.schedule_interval(update_countdown , 1)
 pgzrun.go()
