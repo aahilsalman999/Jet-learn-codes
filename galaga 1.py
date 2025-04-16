@@ -1,7 +1,7 @@
 import pgzrun , random
 width = 900
 height  = 900
-ship = Actor("ship")
+ship = Actor("ship1")
 ship.pos = width //2 , height - 60
 speed = 3
 speed_s = 10
@@ -10,12 +10,17 @@ bullets = []
 score = 0
 
 for x in range(8):
-  enemies.append(Actor("bug"))
-  enemies[-1].x = 100 + 80 * x
-  enemies[-1].y = 50
-
+  for y in range(4):
+   enemies.append(Actor("bug"))
+   enemies[-1].x = 100 + 80 * x
+   enemies[-1].y = 80 + 50 * y
+   
 direction = 1
+ship.dead = False
+ship.countdown = 90
 
+def game_over():
+  screen.draw.text("Game Over!" , (width // 2 , height // 2))
 
 def display_score():
   screen.draw.text(str(score) , (50,30))
@@ -31,18 +36,20 @@ def update():
   move_down = False
   if keyboard.left:
     ship.x -= speed_s
-  if ship.x <= 0:
-    ship.x = 0
-  if keyboard.right:
+    if ship.x <= 0:
+      ship.x = 0
+  elif keyboard.right:
     ship.x += speed_s
-  if ship.x >= width:
-    ship.x = width
+    if ship.x >= width:
+      ship.x = width
   
   for bullet in bullets:
     if bullet.y <= 0:
       bullets.remove(bullet)
     else:
       bullet.y -= 10
+  if len(enemies) == 0:
+    game_over()
   
   if len(enemies) > 0 and (enemies[-1].x > width - 80 or enemies[-1].x < 80):
     move_down = True
@@ -52,11 +59,15 @@ def update():
       enemy.x += 5 * direction
       if move_down == True:
         enemy.y += 50
+      if enemy.y > height:
+        enemies.remove(enemy)
       for bullet in bullets:
         if enemy.colliderect(bullet):
           score = score + 100
           bullets.remove(bullet)
           enemies.remove(enemy)
+          if len(enemies) == 0:
+            game_over()
 
           #Creating new bugs
           #new_bug = Actor("bug")
