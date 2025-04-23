@@ -1,6 +1,6 @@
 import pgzrun , random
 width = 900
-height  = 900
+height  = 600
 ship = Actor("ship1")
 ship.pos = width //2 , height - 60
 speed = 3
@@ -26,13 +26,15 @@ def display_score():
   screen.draw.text(str(score) , (50,30))
 
 def on_key_down(key):
-  if key == keys.SPACE:
-     bullets.append(Actor("bullet"))
-     bullets[-1].x = ship.x
-     bullets[-1].y = ship.y - 50
+  if ship.dead == False:
+    if key == keys.SPACE:
+      bullets.append(Actor("bullet"))
+      sounds.bullet_release.play()
+      bullets[-1].x = ship.x
+      bullets[-1].y = ship.y - 50
 
 def update():
-  global score , direction
+  global score , direction              
   move_down = False
   if keyboard.left:
     ship.x -= speed_s
@@ -63,11 +65,21 @@ def update():
         enemies.remove(enemy)
       for bullet in bullets:
         if enemy.colliderect(bullet):
+          sounds.bullet_hit.play()
           score = score + 100
           bullets.remove(bullet)
           enemies.remove(enemy)
           if len(enemies) == 0:
             game_over()
+      if enemy.colliderect(ship):
+        ship.dead = True
+        ship.y += 200
+        ship = None
+  if ship.dead:
+    ship.countdown -= 1       
+  if ship.countdown == 0:
+    ship.dead = False
+    ship.countdown = 90
 
           #Creating new bugs
           #new_bug = Actor("bug")
@@ -82,8 +94,11 @@ def draw():
     bullet.draw()
   for enemy in enemies:
     enemy.draw()
-  ship.draw()
+  if ship.dead == False:
+    ship.draw()
   display_score()
+  if len(enemies) == 0:
+    game_over()
 pgzrun.go()
 
 
