@@ -21,18 +21,15 @@ clock.schedule_interval(move_block , 2)
 
 def next_ship_target():
    x = random.randint(150,650)
-   y = random.randint(150.450)
-   ship_target = (x,y)
+   y = random.randint(150,450)
+   ship.target = (x,y)
    
-   target_angle = ship.angle_to(ship_target)
+   target_angle = ship.angle_to(ship.target)
    target_angle += 360 * ((ship.angle - target_angle + 180) // 360)
    animate(ship , angle = target_angle , duration = 0.3 , on_finished = move_ship())
 
 def move_ship():
     anim = animate(ship , tween = "accel_decel" , pos = ship.target ,
-                    duration = ship.distance_to(ship.target) // 200 , on_finished =  next_ship_target)
+                    duration = ship.distance_to(ship.target) / 200 , on_finished =  next_ship_target)
 next_ship_target()
 pgzrun.go()
-
-
-
